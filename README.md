@@ -34,3 +34,31 @@ const start = async() =>{
 ```
 
 6. we can use the `dotenv` package when dealing with secret values like connection string etc. and make sure to add the `.env` file to the `.gitignore`
+---
+### setup `dotenv` package
+
+> to setup this package just :
+1. make a `.env` file and add it to the `.gitignore`.
+2. place the `connectionString` there like this:
+```
+MONGO_URI=mongodb+srv://benyamin:pass@benyamincluster.9wfsm.mongodb.net/03-TASK-MANAGER?retryWrites=true&w=majority
+```
+> no need to place it as `string` ...
+3. invoke the `package` and `config` method to access the env secret values
+```js
+require('dotenv').config()
+```
+> no need to assign it to any `variable`...
+4. then since we don't need to any hardcoded string in our `connection` function , we should pass the `MONGO_URI` as an argument to the `start` function and pass it to the `connect` function via `process.env.MONGO_URI`.
+
+```js
+const start = async() =>{
+    try{
+        await connectDB(process.env.MONGO_URI)
+        app.listen(port , ()=>{ console.log('server running on port 3000...')})
+
+    }catch(err){
+        console.log(err);
+    }
+}
+```
