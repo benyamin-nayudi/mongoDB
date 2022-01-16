@@ -1,12 +1,31 @@
 const Task = require('../models/task')
 
-const getAllTasks = (req , res) =>{
-    res.send('get all tasks')
+
+// get all tasks
+const getAllTasks = async (req , res) =>{
+    try{
+        const tasks = await Task.find({}) //get all the document
+        res.status(200).json({tasks})
+    }catch(err){
+        res.status(500).json({msg: error}) //general server error 
+    }
 }
 
-const getTask = (req , res ) =>{
-    res.json({ id : req.params.id })
+
+// get a single task
+const getTask = async (req , res ) =>{
+    try {
+        const {id : taskID } = req.params
+        const task = await Task.findOne({_id:taskID})
+        if(!task)  return res.status(404).json({ msg: `No task with id ${taskID}`   })
+        res.status(200).json({task })
+    } catch (error) {
+        res.status(500).json({massege: error}) //general server error 
+    }
 }
+
+
+// post
 const createTask = async (req , res ) =>{
     try{
         const task = await Task.create(req.body)   
@@ -16,12 +35,38 @@ const createTask = async (req , res ) =>{
     }
 }
 
-const updateTask  = (req , res) =>{
-    res.send('update  Task')
+
+// put
+const updateTask  =async (req , res) =>{
+    const {id : taskID} = req.params
+
+    // try{
+    //     const task = await Task.updateOne({_id: taskID , req.body})
+
+    //     if(!task) return res.status(404).json({msg: 'there is no task with this id'}) 
+        
+    //     res.status(200).json({task})
+    // }catch(error){
+    //     res.status(500).json({msg: error})
+    // }
 }
 
-const deleteTask = (req , res) =>{
-    res.send('delete Task')
+
+// delete
+const deleteTask =async (req , res) =>{
+    // res.send('delete Task')
+
+    const {id : taskID } = req.params
+
+    try{
+        const task = await Task.findOneAndDelete({_id : taskID})
+
+        if(!task) return res.status(404).json({msg: 'there is no such id'})
+
+        res.status(200).json({task})
+    }catch(error){
+        res.status(500).json({msg: error})
+    }
 }
 
 
