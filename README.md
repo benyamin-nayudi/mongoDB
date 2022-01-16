@@ -1,9 +1,9 @@
 ### the schema and model
 
-to make the first schema:
-1. make a folder name model in db folder.
-2. make a task.js file
-3. like this you can make your schema 
+to make the first `schema`:
+1. make a folder name `model` in `db` folder.
+2. make a `task.js` file
+3. like this you can make your `schema` 
 ```js
 const TaskSchema = new mongoose.Schema({
     name : String , 
@@ -12,11 +12,11 @@ const TaskSchema = new mongoose.Schema({
 
 ```
 
-4. and then export the model of that schema 
+4. and then export the `model` of that `schema` 
 ```js
 module.exports = mongoose.model('modelName' , TaskSchema)
 ```
-5. now we can use our model in the controllers to make crud requests
+5. now we can use our `model` in the `controllers` to make `crud` requests
 
 ```js
 const createTask = async (req , res ) =>{
@@ -26,11 +26,11 @@ const createTask = async (req , res ) =>{
     res.status(201).json({task})
 }
 ```
-> here we are making an async post action to our database. the model that we have created has a method name .create and by passing the req.body json it post that json to our database
+> here we are making an `async` `post` action to our `database`. the `model` that we have created has a method name `.create` and by passing the `req.body` json, it posts that `json` to our `database`
 
->we can try it in postman. 
+>we can try it in `postman`. 
 
-> there is an error for the connection via mongoose and you can resolve it by setting the Node.js version to 2.. and later in the mongoDB connection part.
+> there is an error for the `connection` via `mongoose` and you can resolve it by setting the Node.js version to 2.. and later in the `mongoDB` connection part.
 
 
 
