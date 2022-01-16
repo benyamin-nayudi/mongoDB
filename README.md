@@ -37,3 +37,38 @@ const getTask = async (req , res ) =>{
 
 --- 
 the `delete` functionality is almost like the `getSingleTask` and instead of `findOne` we use `findOneAndDelete` method.
+
+---
+to update a task we can :
+```js
+const updateTask  =async (req , res) =>{
+    
+    try{
+        const {id : taskID} = req.params
+        const task = await Task.findByIdAndUpdate({_id: taskID } , req.body , {
+            new: true,
+            runValidators: true
+        })
+
+        if(!task) return res.status(404).json({msg: 'there is no task with this id'}) 
+        
+        res.status(200).json({task})
+    }catch(error){
+        res.status(500).json({msg: error}) 
+    }
+}
+```
+
+>the `findOneAndUpdate` method first checks whether the `id` matches or not then assign the `req.body` as the `data` and sends it back
+
+>there is two `options` that we can pass to it:
+1. `new: true` => this option returns the updated data not the old one
+2. `runValidator: true` => this enable the `validator` to be used in the `update` (if not we can update the name to be empty)
+
+---
+if you want to work with `put`, the functionality is the same as `patch` but you need to add another `option` :
+```js
+{
+    overwrite: true
+}
+```
