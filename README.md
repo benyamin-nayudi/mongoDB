@@ -1,40 +1,38 @@
-### the schema and model
+### validation
 
-to make the first schema:
-1. make a folder name model in db folder.
-2. make a task.js file
-3. like this you can make your schema 
+> since now we have made our `post` call to `database`, but there is a problem and that is we can post `empty values` to our database , so we need some `validation`. we can make our custom `validators` in the `schema file`.
+
+so we can make our `validators` by passing `object` to our `properties` like this:
+
 ```js
 const TaskSchema = new mongoose.Schema({
-    name : String , 
-    completed: Boolean
+    name : {
+        type: String ,
+        required : [true , 'must provide a name'] ,
+        trim: true ,
+        maxlength: [20 , 'name can not be more than 20 characters']
+    }, 
+    completed: {
+        type : Boolean , 
+        default: false
+    }
 })
-
 ```
+-  note that we can write either `true` for the `required` validator or give it an `array` and a `message` for handling the error.
+- we can `trim` our string for names such `'       beny     '`
+- we can make a `maxlength` or `minlength` 
+- we can put a `default` value for a specific property
 
-4. and then export the model of that schema 
-```js
-module.exports = mongoose.model('modelName' , TaskSchema)
-```
-5. now we can use our model in the controllers to make crud requests
+---
+and we can make our functionality to handle `error`:
 
 ```js
 const createTask = async (req , res ) =>{
-
-    const task = await Task.create(req.body)
-
-    res.status(201).json({task})
+    try{
+        const task = await Task.create(req.body)   
+        res.status(201).json({task})
+    }catch(error){
+        res.status(500).json({msg: error}) //general server error 
+    }
 }
 ```
-> here we are making an async post action to our database. the model that we have created has a method name .create and by passing the req.body json it post that json to our database
-
->we can try it in postman. 
-
-> there is an error for the connection via mongoose and you can resolve it by setting the Node.js version to 2.. and later in the mongoDB connection part.
-
-
-
-
-
-
-
