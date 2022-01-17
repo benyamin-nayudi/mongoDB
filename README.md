@@ -1,5 +1,18 @@
-### make a middleware to handle our repetitive crud calls
-> so the problem here is that we want to avoid using repetitive try,catch blocks like this:
+### make a `middleware` for invalid routes
+
+1. make a middleware `notFound.js `
+2. the `middleware` are have access to the `req` , `res` and `next` objects by defaults 
+
+```js
+const notFound = (req , res) => res.status(404).send('Route doesn"t exist ' )
+module.exports = notFound
+```
+
+3. place it at the bottom of your `routes`.
+
+---
+### make a middleware to handle our repetitive `crud` calls
+> so the problem here is that we want to avoid using repetitive `try-catch` blocks like this:
 ```js
 //get all 
 const getAllTasks = async (req ,res) =>{
@@ -14,7 +27,7 @@ const getAllTasks = async (req ,res) =>{
 
 ```
 
-and we want to make a middleware to simply take our function and wrap it inside an async function with a built in try-catch block
+and we want to make a `middleware` to simply take our function and wrap it inside an `async` function with a built in `try-catch` block
 
 so we can make a middleware name asyncWrapper like this:
 ```js
@@ -31,7 +44,7 @@ const asyncWrapper = (fn) =>{
 module.exports = asyncWrapper
 ```
 
-and our function will be like this:
+and our `function` will be like this:
 ```js
 // get all tasks
 const getAllTasks = asyncWrapper( async (req , res) =>{
