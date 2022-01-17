@@ -82,7 +82,7 @@ module.exports = errorHandlerMiddleware
 ```
 
 3. if you don't specify any custom `error handler` the `express` itself takes care of the `errors` via some built in `error handlers`
-4. try to use the `error handler` by using the` app.use` function
+4. try to use the `error handler` by using the` app.use` function and place it below your routes so it can catches the errors
 ```css
 app.use(errorHandlerMiddleware)
 ```
